@@ -21,9 +21,49 @@ public class Main {
     public static void main(String[] args) throws Exception {
         try {
             UserSearchRepo repo = new UserSearchRepo(client);
+            countUsers(repo);
+            queryUsers(repo);
+            aggregateUsers(repo);
         } finally {
             client.close();
         }
+    }
+
+    private static void aggregateUsers(UserSearchRepo repo) throws ParseException {
+
+        List<User> userList1 = repo.listAvgAgeGroupByGenderAndCity();
+        System.out.println("========== aggregate user 1 ============");
+        userList1.forEach(System.out::println);
+
+        List<User> userList2 = repo.listAgeStatsByCreateTimeRangeAndGroupByCityAndGender(
+                DateUtils.parseDate("2021-01-15", "yyyy-MM-dd"), DateUtils.parseDate("2021-02-15", "yyyy-MM-dd"));
+        System.out.println("========== aggregate user 2 ============");
+        userList2.forEach(System.out::println);
+
+    }
+
+    private static void queryUsers(UserSearchRepo repo) {
+
+        List<User> userList1 = repo.listByNamePrefix("王");
+        System.out.println("========== query user 1 ============");
+        userList1.forEach(System.out::println);
+
+        List<User> userList2 = repo.listByNameSuffixAndAgeRange("三", 25, 32);
+        System.out.println("========== query user 2 ============");
+        userList2.forEach(System.out::println);
+
+    }
+
+    private static void countUsers(UserSearchRepo repo) {
+
+        System.out.println("男生人数：" + repo.countByGender(Gender.MALE));
+
+        System.out.println("女生人数：" + repo.countByGender(Gender.FEMALE));
+
+        System.out.println("上海人数：" + repo.countByCity("上海"));
+
+        System.out.println("北京人数：" + repo.countByCity("北京"));
+
     }
 
     private static void createUsers(UserSearchRepo repo) {

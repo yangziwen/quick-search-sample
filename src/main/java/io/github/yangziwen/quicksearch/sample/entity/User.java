@@ -45,4 +45,13 @@ public class User {
     @Transient
     private BigDecimal avgAge;
 
+    @Transient
+    private BigDecimal maxAge;
+
+    @Transient
+    private BigDecimal minAge;
+
+    @Transient
+    private Integer count;
+
 }
