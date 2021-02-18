@@ -45,8 +45,7 @@ public class UserSearchRepo extends BaseSearchRepository<User> {
         TypedQuery<User> query = newTypedQuery()
                 .selectExpr(expr -> expr.avg(User::getAge)).as(User::getAvgAge)
                 .groupByKeyword(User::getGender)
-                .groupByKeyword(User::getCity)
-                ;
+                .groupByKeyword(User::getCity);
         return list(query);
     }
 
