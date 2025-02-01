@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.time.DateUtils;
 import org.apache.http.HttpHost;
@@ -21,12 +22,18 @@ public class Main {
     public static void main(String[] args) throws Exception {
         try {
             UserSearchRepo repo = new UserSearchRepo(client);
+            listUsers(repo);
             countUsers(repo);
             queryUsers(repo);
             aggregateUsers(repo);
         } finally {
             client.close();
         }
+    }
+
+    private static void listUsers(UserSearchRepo repo) {
+        List<User> userList = repo.list();
+        userList.forEach(System.out::println);
     }
 
     private static void aggregateUsers(UserSearchRepo repo) throws ParseException {
@@ -64,6 +71,13 @@ public class Main {
 
         System.out.println("北京人数：" + repo.countByCity("北京"));
 
+    }
+
+    private static void clearUsers(UserSearchRepo repo) {
+        List<String> ids = repo.list().stream()
+                .map(User::getId)
+                .collect(Collectors.toList());
+        repo.deleteByIds(ids);
     }
 
     private static void createUsers(UserSearchRepo repo) {

@@ -8,11 +8,11 @@ import org.elasticsearch.client.RestHighLevelClient;
 import io.github.yangziwen.quickdao.core.Order.Direction;
 import io.github.yangziwen.quickdao.core.TypedCriteria;
 import io.github.yangziwen.quickdao.core.TypedQuery;
-import io.github.yangziwen.quicksearch.BaseSearchRepository;
+import io.github.yangziwen.quickdao.elasticsearch.BaseElasticSearchRepository;
 import io.github.yangziwen.quicksearch.sample.entity.User;
 import io.github.yangziwen.quicksearch.sample.enums.Gender;
 
-public class UserSearchRepo extends BaseSearchRepository<User> {
+public class UserSearchRepo extends BaseElasticSearchRepository<User> {
 
     public UserSearchRepo(RestHighLevelClient client) {
         super(client);
